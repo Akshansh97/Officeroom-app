@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useTheme } from "../utils/ThemeContext";
+import { useCart } from "../utils/CartContext";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { cart } = useCart();
 
   return (
     <nav className="navbar">
@@ -20,6 +22,9 @@ export default function Navbar() {
         </li>
         <li>
           <Link href="/products">Products</Link>
+        </li>
+        <li>
+          <Link href="/cart">Cart ({cart.length})</Link>
         </li>
         <li>
           <button onClick={toggleTheme}>
