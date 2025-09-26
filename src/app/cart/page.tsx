@@ -1,83 +1,86 @@
 "use client";
+import React from "react";
 import { useCart } from "../../utils/CartContext";
-import Link from "next/link";
 
 export default function CartPage() {
   const {
     cart,
     addToCart,
-    removeFromCart,
     decreaseQuantity,
-    getTotal,
+    removeFromCart,
     clearCart,
+    getTotal,
   } = useCart();
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
+  if (cart.length === 0) {
+    return (
+      <div className="container-max mx-auto py-12">
+        <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+        <p className="text-gray-600">Your cart is empty.</p>
+      </div>
+    );
+  }
 
-      {cart.length === 0 ? (
-        <p>
-          Your cart is empty. <Link href="/products">Shop Now</Link>
-        </p>
-      ) : (
-        <div className="space-y-4">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between border-b pb-2"
-            >
-              <div className="flex items-center space-x-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded"
-                />
-                <div>
-                  <h2 className="font-medium">{item.name}</h2>
-                  <p>₹{item.price}</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <button
-                      onClick={() => decreaseQuantity(item.id)}
-                      className="px-2 bg-gray-300"
-                    >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => addToCart(item, 1)}
-                      className="px-2 bg-gray-300"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
+  return (
+    <div className="container-max mx-auto py-12">
+      <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
+      <div className="space-y-6">
+        {cart.map((item) => (
+          <div
+            key={item.id}
+            className="flex items-center gap-4 bg-white dark:bg-gray-800 p-4 rounded-lg border"
+          >
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-20 h-20 object-contain bg-gray-100 rounded"
+            />
+            <div className="flex-1">
+              <h3 className="font-semibold">{item.name}</h3>
+              <p className="text-sm text-gray-600">₹{item.price}</p>
+              <div className="flex items-center gap-2 mt-2">
+                <button
+                  onClick={() => decreaseQuantity(item.id)}
+                  className="px-2 py-1 border rounded"
+                >
+                  −
+                </button>
+                <span>{item.quantity}</span>
+                <button
+                  onClick={() => addToCart(item, 1)}
+                  className="px-2 py-1 border rounded"
+                >
+                  +
+                </button>
               </div>
+            </div>
+            <div className="text-right">
+              <div className="font-medium">₹{item.price * item.quantity}</div>
               <button
                 onClick={() => removeFromCart(item.id)}
-                className="px-3 py-1 bg-red-500 text-white rounded"
+                className="text-sm text-red-500 mt-2"
               >
                 Remove
               </button>
             </div>
-          ))}
-
-          <div className="flex justify-between items-center mt-4">
-            <h2 className="text-lg font-semibold">Total: ₹{getTotal()}</h2>
-            <button
-              onClick={clearCart}
-              className="px-4 py-2 bg-gray-700 text-white rounded"
-            >
-              Clear Cart
-            </button>
-            <Link href="/checkout">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded">
-                Proceed to Checkout
-              </button>
-            </Link>
           </div>
+        ))}
+      </div>
+
+      <div className="mt-8 flex items-center justify-between">
+        <button
+          onClick={clearCart}
+          className="px-4 py-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          Clear Cart
+        </button>
+        <div className="text-right">
+          <div className="text-lg font-bold">Total: ₹{getTotal()}</div>
+          <button className="mt-2 px-4 py-2 bg-primary text-white rounded hover:bg-accent">
+            Checkout
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

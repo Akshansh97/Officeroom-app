@@ -1,28 +1,41 @@
 "use client";
-import { useCart, Product } from "../../utils/CartContext";
+import React from "react";
 import ProductCard from "../../components/ProductCard";
+import { Product } from "../../utils/CartContext";
 
 const products: Product[] = [
-  { id: 1, name: "Office Chair", price: 2500, image: "/images/chair.jpg" },
-  { id: 2, name: "Wooden Desk", price: 5500, image: "/images/desk.jpg" },
-  { id: 3, name: "Table Lamp", price: 1200, image: "/images/lamp.jpg" },
+  {
+    id: 1,
+    name: "Ergonomic Office Chair",
+    price: 4999,
+    image: "/images/products/Chairs/chair1.jpg",
+  },
+  {
+    id: 2,
+    name: "Wooden Office Desk",
+    price: 7999,
+    image: "/images/products/Tables/table1.jpg",
+  },
+  {
+    id: 3,
+    name: "Modern Desk Lamp",
+    price: 1999,
+    image: "/images/products/Lamps/lamp1.jpg",
+  },
+  // 👉 add more products here
 ];
 
 export default function ProductsPage() {
-  const { addToCart } = useCart();
-
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Products</h2>
-      <div className="grid grid-cols-3 gap-4">
+    <main className="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        Products
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAdd={() => addToCart(product, 1)}
-          />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </div>
+    </main>
   );
 }
