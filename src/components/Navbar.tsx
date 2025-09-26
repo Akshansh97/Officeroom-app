@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useTheme } from "../utils/ThemeContext";
 import { useCart } from "../utils/CartContext";
+import { useTheme } from "../utils/ThemeContext";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -24,7 +24,9 @@ export default function Navbar() {
           <Link href="/products">Products</Link>
         </li>
         <li>
-          <Link href="/cart">Cart ({cart.length})</Link>
+          <Link href="/cart">
+            Cart ({cart.reduce((sum, item) => sum + item.quantity, 0)})
+          </Link>{" "}
         </li>
         <li>
           <button onClick={toggleTheme}>
